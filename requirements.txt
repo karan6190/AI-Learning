@@ -2,6 +2,9 @@
 # Install with:  pip install -r requirements.txt
 
 langgraph>=0.2.0
-langchain>=0.3.0
-langchain-openai>=0.2.0      # only needed if you use a real LLM (lessons 04+)
+langchain>=0.3.0      # only needed if you use a real LLM (lessons 04+)
 python-dotenv>=1.0.0         # loads your API key from a .env file
+langsmith>=0.1.100
+langchain>=0.2.0
+langchain-groq>=0.1.0
+langgraph>=0.2.0
