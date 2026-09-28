@@ -1,56 +1,142 @@
 name: AI Issue Agent
 
 on:
+
+  # Automatically run when a new issue is opened
   issues:
     types: [opened]
 
+  # Automatically run when someone comments on an issue
   issue_comment:
     types: [created]
+
+  # Allow manual execution
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "GitHub Issue number to process"
+        required: true
+        type: number
 
 permissions:
   contents: read
   issues: write
 
 jobs:
+
   ai-agent:
-    # Do not run for comments created by our own bot.
+
+    # ---------------------------------------------------------
+    # Automatic issue
+    # ---------------------------------------------------------
+    #
+    # Run when:
+    #   - issue is opened
+    #
+    # ---------------------------------------------------------
+    #
+    # Automatic comment
+    #
+    # Run when:
+    #   - a comment is created
+    #   - comment was NOT created by github-actions[bot]
+    #
+    # ---------------------------------------------------------
+    #
+    # Manual execution
+    #
+    # Always run because workflow_dispatch already requires
+    # the user to provide an issue number.
+    #
+    # ---------------------------------------------------------
+
     if: |
       github.event_name == 'issues' ||
       (
         github.event_name == 'issue_comment' &&
         github.event.comment.user.login != 'github-actions[bot]'
-      )
+      ) ||
+      github.event_name == 'workflow_dispatch'
 
     runs-on: ubuntu-latest
 
     steps:
+
+      # -------------------------------------------------------
+      # Checkout repository
+      # -------------------------------------------------------
+
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+
+      # -------------------------------------------------------
+      # Setup Python
+      # -------------------------------------------------------
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
+      # -------------------------------------------------------
+      # Install dependencies
+      # -------------------------------------------------------
+
       - name: Install dependencies
         run: |
           pip install requests
 
+      # -------------------------------------------------------
+      # Determine issue number
+      # -------------------------------------------------------
+
+      - name: Determine issue number
+        id: issue
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          MANUAL_ISSUE_NUMBER: ${{ inputs.issue_number }}
+        run: |
+
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            ISSUE_NUMBER="$MANUAL_ISSUE_NUMBER"
+          else
+            ISSUE_NUMBER="$EVENT_ISSUE_NUMBER"
+          fi
+
+          echo "issue_number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+
+          echo "Processing issue #$ISSUE_NUMBER"
+
+      # -------------------------------------------------------
+      # Run AI Agent
+      # -------------------------------------------------------
+
       - name: Run AI Issue Agent
         env:
+
+          # Secret
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+
+          # GitHub automatically provides this token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+          # Repository
           GITHUB_REPOSITORY: ${{ github.repository }}
-          ISSUE_NUMBER: ${{ github.event.issue.number }}
 
+          # Issue number
+          ISSUE_NUMBER: ${{ steps.issue.outputs.issue_number }}
+
+          # Issue information
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
 
+          # Event information
           EVENT_NAME: ${{ github.event_name }}
 
+          # Comment information
           COMMENT_BODY: ${{ github.event.comment.body }}
           COMMENT_AUTHOR: ${{ github.event.comment.user.login }}
 
