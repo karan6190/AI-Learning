@@ -47,8 +47,9 @@ class ChatResponse(BaseModel):
     model_used: str
 
 
-@app.post("/chat", response_model=ChatResponse)
-def chat(req: ChatRequest):
+@app.post("/chat", response_model=ChatResponse) # Whatever this function returns must match the ChatResponse shape.
+#" It's a promise about the output — FastAPI checks it"
+def chat(req: ChatRequest): # "The caller must send me data that matches the ChatRequest form."
     # By the time we get here, req is GUARANTEED valid:
     #   req.message is a non-empty string <= 2000 chars
     #   req.temperature is a float in [0, 1]
