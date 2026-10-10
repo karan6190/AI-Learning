@@ -29,13 +29,22 @@ reasoning loop.
 
 See the [demo guide](langsmith/README.md) for setup and how to run.
 
+### ⚡ [FastAPI for AI — From Basic APIs to Calling LLMs](fastapi-for-ai/)
+
+A hands-on course that takes complete beginners from *"what even is an API?"* all the way
+to building a production-ready API that calls an LLM like Claude. Explains **why FastAPI**
+(and why not Flask or Django) for AI work. Eight runnable lessons, each with its own README;
+**lessons 1–4 need no API key**, and lessons 5+ include a `MOCK_LLM` mode so the whole
+course runs with zero cost.
+
+**Covers:** what an API is (restaurant analogy) · HTTP methods & status codes · Pydantic
+validation · async/await for slow LLM calls · calling Claude · streaming · conversation
+memory · production concerns (config, CORS, logging, error handling, health checks).
+
+See the [full course guide](fastapi-for-ai/README.md) for setup and how to run.
+
 ## Getting started
 
 Each project has its own README with setup instructions. Most use
 [`uv`](https://docs.astral.sh/uv/) for environment management:
-
-```bash
-cd <project-folder>
-uv venv
-uv pip install -r requirements.txt
 ```
