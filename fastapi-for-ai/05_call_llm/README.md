@@ -70,5 +70,4 @@ Send to `POST /chat`:
 
 ## Next
 
-Lesson 6: **streaming** — send the reply token-by-token so the UI feels instant (the
-ChatGPT typing effect).
+Lesson 6: **Prompt Injection and Guradrails**

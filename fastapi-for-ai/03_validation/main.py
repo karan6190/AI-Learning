@@ -28,7 +28,7 @@ class ChatRequest(BaseModel):
     message: str = Field(
         ...,  # the ... means "required, no default"
         min_length=1,
-        max_length=2000,
+        max_length=20,
         description="What the user wants to say to the model.",
     )
     # `model` is optional — it has a default, so clients can omit it.
