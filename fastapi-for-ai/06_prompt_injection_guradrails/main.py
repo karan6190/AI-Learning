@@ -30,7 +30,7 @@ import tools
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", "..", ".env"))
 
-MODEL = os.getenv("LLM_MODEL", "llama-3.3-70b-versatile")
+MODEL = os.getenv("LLM_MODEL", "openai/gpt-oss-20b")
 MOCK = os.getenv("MOCK_LLM", "false").lower() == "true" or not os.getenv("GROQ_API_KEY")
 
 app = FastAPI(title="Lesson 9 — Prompt injection & guardrails")
