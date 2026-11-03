@@ -54,7 +54,7 @@ async def main() -> None:
     from langgraph.graph import StateGraph, START, END, MessagesState
     from langgraph.prebuilt import ToolNode
 
-    pat = os.environ["GITHUB_PERSONAL_ACCESS_TOKEN"]
+    pat = os.environ["PERSONAL_ACCESS_TOKEN"]
 
     # ---- 1. THE BRIDGE — but now pointed at a REMOTE server over HTTP ----
     # Compare this dict to agent.py: same shape, different transport. The GitHub
