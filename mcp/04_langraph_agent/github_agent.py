@@ -137,7 +137,7 @@ async def main() -> None:
 if __name__ == "__main__":
     load_dotenv()
 
-    missing = [k for k in ("GROQ_API_KEY", "GITHUB_PERSONAL_ACCESS_TOKEN") if not os.getenv(k)]
+    missing = [k for k in ("GROQ_API_KEY", "PERSONAL_ACCESS_TOKEN") if not os.getenv(k)]
     if missing:
         print(
             "Missing secret(s): " + ", ".join(missing) + "\n"
