@@ -54,8 +54,6 @@ async def main() -> None:
     from langgraph.graph import StateGraph, START, END, MessagesState
     from langgraph.prebuilt import ToolNode
 
-    pat = os.environ["PERSONAL_ACCESS_TOKEN"]
-
     # ---- 1. THE BRIDGE — but now pointed at a REMOTE server over HTTP ----
     # Compare this dict to agent.py: same shape, different transport. The GitHub
     # server authenticates with your PAT sent as a Bearer token in a header.
@@ -63,7 +61,7 @@ async def main() -> None:
         {
             "github": {
                 "url": GITHUB_MCP_URL,
-                "headers": {"Authorization": f"Bearer {pat}"},
+                "headers": {"Authorization": f"Bearer {PERSONAL_ACCESS_TOKEN}"},
                 "transport": "streamable_http",
             }
         }
@@ -136,16 +134,4 @@ async def main() -> None:
 
 if __name__ == "__main__":
     load_dotenv()
-
-    missing = [k for k in ("GROQ_API_KEY", "PERSONAL_ACCESS_TOKEN") if not os.getenv(k)]
-    if missing:
-        print(
-            "Missing secret(s): " + ", ".join(missing) + "\n"
-            "Create a `.env` file next to this script with:\n"
-            "    GROQ_API_KEY=gsk_...                       (free at https://console.groq.com)\n"
-            "    GITHUB_PERSONAL_ACCESS_TOKEN=github_pat_... (https://github.com/settings/personal-access-tokens)\n"
-            "A read-only, public-repo fine-grained token is enough."
-        )
-        raise SystemExit(0)
-
     asyncio.run(main())
