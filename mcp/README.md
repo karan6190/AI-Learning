@@ -16,8 +16,9 @@ People who have heard "MCP" and want to actually understand it:
 1. What MCP *is* (it's a protocol, not a library or a model) and **why** it exists.
 2. The two roles: a **server** that offers tools, a **client** that uses them.
 3. How to **build** a server with **FastMCP** (one decorator per tool).
-4. How to **test** it — from a plain script and from a **Swagger `/docs`** page.
-5. (Coming) How an **LLM** drives the client, and how to connect the **real GitHub MCP server**.
+4. How to **test** it — from a plain script, from a **Swagger `/docs`** page, and with **MCP Inspector**.
+5. How an **LLM** drives the client (a **LangGraph agent** — Lesson 4), and how the same agent
+   connects to the **real GitHub MCP server** just by swapping its connection config.
 
 Basic Python helps. No prior MCP knowledge assumed.
 
@@ -47,10 +48,9 @@ built once works in any MCP-aware app.
 | # | Folder | What you learn |
 |---|--------|----------------|
 | 1 | [`lessons/01_what_is_mcp`](lessons/01_what_is_mcp) | The mental model — what MCP is & why (no code): tools, agents, server vs client, discovery vs calling |
-| 2 | [`lessons/02_your_first_server`](lessons/02_your_first_server) | Build the smallest MCP server with **FastMCP**; test it from **Swagger** and from a script |
-
-More lessons coming: richer tool inputs & errors, an **LLM-driven agent** that chooses tools,
-and connecting the **real GitHub MCP server**.
+| 2 | [`lessons/02_your_first_server`](lessons/02_your_first_server) | Build the smallest MCP server with **FastMCP**; test it from **Swagger**, **MCP Inspector**, and from a script |
+| 3 | [`lessons/03_mcp_inspector`](lessons/03_mcp_inspector) | Inspector-first workflow: connect, discover tools, run happy-path calls, and debug MCP tool errors |
+| 4 | [`lessons/04_langgraph_agent`](lessons/04_langgraph_agent) | **LangGraph + MCP, end to end** — build the graph by hand (LLM node + tool node + router); run it against your own server, then point the *same graph* at the **real GitHub MCP server** over HTTP |
 
 Each folder has its own `README.md` with the concept, the code walk-through, and things to try.
 
@@ -79,8 +79,17 @@ pip install "mcp>=1.2" "fastapi>=0.110" "uvicorn[standard]>=0.29"
 - `mcp` gives you **both** sides: `mcp.server.fastmcp` (to build servers) and the client.
 - `fastapi` + `uvicorn` are for the **Swagger** test app in Lesson 2 (`main.py`).
 
-Lessons 1–2 need **no API key**. (Later LLM lessons will use a free **Groq** key, with a mock
-mode so you can still run them with no cost.)
+Lessons 1–3 need **no API key**. Lesson 4 uses a free **Groq** key (and, for its GitHub part, a
+free **GitHub** token); it installs its own extra deps from its `requirements.txt`.
+
+### 4. Optional: install Node.js for MCP Inspector
+MCP Inspector runs via `npx`, so install Node.js 18+ first.
+
+Quick check:
+```bash
+node --version
+npx --version
+```
 
 ---
 
@@ -100,6 +109,14 @@ uvicorn main:app --reload
 cd lessons/02_your_first_server
 python client.py
 ```
+
+**MCP Inspector — interactive MCP tool testing UI:**
+```bash
+cd lessons/02_your_first_server
+mcp dev server.py
+```
+
+That command launches MCP Inspector and wires it to your server automatically.
 
 ---
 

@@ -49,12 +49,13 @@ See the [full course guide](fastapi-for-ai/README.md) for setup and how to run.
 A from-zero course on the **Model Context Protocol (MCP)** — the "USB-C for AI tools" that lets
 any AI app plug into any set of tools without custom glue. Starts with the mental model (no
 code), then builds a real MCP **server** with **FastMCP** and tests it from a **Swagger** page,
-before adding an LLM so the agent chooses tools itself. Runnable offline with no key.
+before wiring it to a **LangGraph agent** so an LLM chooses the tools itself — then pointing that
+same agent at the **real GitHub MCP server**. Early lessons run offline with no key.
 
 **Covers:** what MCP is & why it exists (server vs client, discovery vs calling) · building a
 server with FastMCP (type hints → tool schema) · the stdio transport · testing tools via a
-FastAPI/Swagger client · tool errors over MCP (`isError`) · (coming) an LLM-driven agent and
-the real GitHub MCP server.
+FastAPI/Swagger client · tool errors over MCP (`isError`) · an LLM-driven **LangGraph agent**
+that chooses tools itself · connecting the real **GitHub MCP server** over HTTP.
 
 See the [full course guide](mcp/README.md) for setup and how to run.
 
