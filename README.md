@@ -59,6 +59,18 @@ that chooses tools itself · connecting the real **GitHub MCP server** over HTTP
 
 See the [full course guide](mcp/README.md) for setup and how to run.
 
+### 🤝 [A2A — Letting AI Agents Talk to Each Other](a2a/)
+
+A from-zero explainer on the **Agent2Agent (A2A) protocol**, the open standard that lets
+independent agents (built by different teams, on different frameworks) discover each other and
+delegate work. If MCP connects an agent to its **tools**, A2A connects an agent to **other agents**.
+
+**Covers:** what A2A is & why it exists · A2A vs MCP side by side (and how they work together) ·
+architecture: Agent Cards, Tasks & lifecycle, Messages/Parts/Artifacts · JSON-RPC operations ·
+polling vs streaming vs push notifications · security model · an end-to-end walkthrough.
+
+See the [explainer](a2a/README.md).
+
 ## Getting started
 
 Each project has its own README with setup instructions. Most use
@@ -69,3 +81,4 @@ cd <project-folder>
 uv venv
 uv pip install -r requirements.txt
 ```
+

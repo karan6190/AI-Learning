@@ -1,0 +1,56 @@
+{
+  "name": "Expense Agent",
+  "description": "Checks trip costs against company travel policy and team budgets.",
+  "version": "1.2.0",
+  "provider": {
+    "organization": "Finance Platform Team",
+    "url": "https://finance.example.com"
+  },
+  "documentationUrl": "https://finance.example.com/docs/expense-agent",
+  "supportedInterfaces": [
+    {
+      "url": "https://expense-agent.example.com/a2a/jsonrpc",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    },
+    {
+      "url": "https://expense-agent.example.com/a2a/rest",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "extendedAgentCard": false
+  },
+  "securitySchemes": {
+    "corp_sso": {
+      "openIdConnectSecurityScheme": {
+        "openIdConnectUrl": "https://login.example.com/.well-known/openid-configuration"
+      }
+    }
+  },
+  "securityRequirements": [
+    { "schemes": { "corp_sso": { "list": [] } } }
+  ],
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "skills": [
+    {
+      "id": "check_trip_budget",
+      "name": "Check trip budget",
+      "description": "Given a trip itinerary and cost, says whether it is within policy and budget.",
+      "tags": ["finance", "travel", "policy"],
+      "examples": ["Is a $1,800 trip to Houston for 3 nights within policy?"]
+    },
+    {
+      "id": "explain_policy",
+      "name": "Explain travel policy",
+      "description": "Answers questions about the travel and expenses policy in plain English.",
+      "tags": ["policy", "travel", "faq"],
+      "examples": ["Can I fly business class on a 6-hour flight?"],
+      "outputModes": ["text/plain"]
+    }
+  ]
+}
